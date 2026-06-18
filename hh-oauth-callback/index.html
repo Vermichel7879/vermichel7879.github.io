@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HH OAuth Callback</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+
+    code {
+      display: block;
+      padding: 12px;
+      background: #f2f2f2;
+      border-radius: 8px;
+      word-break: break-all;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>HH OAuth Callback</h1>
+
+  <p>Если авторизация прошла успешно, ниже появится код авторизации:</p>
+
+  <code id="code">Код не найден</code>
+
+  <button onclick="copyCode()">Скопировать код</button>
+
+  <p id="status"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+
+    const codeBlock = document.getElementById("code");
+    const status = document.getElementById("status");
+
+    if (code) {
+      codeBlock.textContent = code;
+    } else if (error) {
+      codeBlock.textContent = "Ошибка: " + error;
+    }
+
+    function copyCode() {
+      if (!code) {
+        status.textContent = "Код не найден.";
+        return;
+      }
+
+      navigator.clipboard.writeText(code);
+      status.textContent = "Код скопирован.";
+    }
+  </script>
+</body>
+</html>
